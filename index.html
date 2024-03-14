@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>🐳 Utiliser Docker</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<p>🐳 A la découverte de Docker !</p>
+					<p><a href="https://leiluspocus.netlify.app">Laïla Atrmouh</a> <i>(Ada Tech School Paris)</i></p>
+				</section>
+				<section>
+					<i>📆 Au menu</i>
+					<ul>
+						<li>Docker: A quoi ça sert ?</li>
+						<li>Cas #1 : Une application Node.js</li>
+						<li>Cas #2 : Une application PHP avec sa petite base MySQL</li>
+						<li>Etapes pour dockeriser son projet RNCP</li>
+						<li>Conseils et ressources utiles</li>
+					</ul>
+					<aside class="notes">
+						Rappeler que je parle vite et qu'elles ne doivent pas hésiter à m'interrompre. On va voir des exemples de projets sur lesquels j'ai pu travailler.
+					</aside>
+				</section>
+				<section>
+					<section>
+						🤔 Problème de dev
+
+						<blockquote>
+							J'ai un site Wordpress avec une base de données.<br />
+							J'accueille un·e camarade dessus.						<br />
+							Comment lui faire démarrer le projet ?</blockquote>
+
+					</section>
+					<section>
+						Souviens-toi <strike>de l'été dernier</strike> du projet Meubles ? 🪑
+					</section>
+					<section>
+
+					 On installe tout à la main !
+
+						<pre><code data-trim data-noescape>
+							# Installer un serveur de requêtes - Apache / Nginx
+							apt-get install apache2
+
+							# Installer un serveur applicatif (PHP/Node...)
+							apt-get install php8.1-fpm
+
+							# Installer composer
+							php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+							php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+							php composer-setup.php
+							php -r "unlink('composer-setup.php');"
+
+							composer install wordpress
+						</code></pre>
+
+					</section>
+
+					<section>
+						<table>
+							<tr>
+								<td>😍</td><td>🤬</td>
+							</tr>
+							<tr>
+								<td>On visualise toutes les dépendances</td>
+								<td>A répéter à chaque environnement crée, les différences Windows/Mac</td>
+							</tr>
+						</table>
+					</section>
+					<section>
+
+						Docker
+
+						<pre><code data-trim data-noescape>
+						# installation de docker sur Mac - https://docs.docker.com/desktop/install/mac-install/
+						sudo hdiutil attach Docker.dmg
+						sudo /Volumes/Docker/Docker.app/Contents/MacOS/install
+						sudo hdiutil detach /Volumes/Docker
+
+						# On se place sur son projet dockerisé
+						cd MonProjet/
+
+						# Tada 🎉
+						docker-compose up
+						</code></pre>
+					</section>
+					<section>
+						<table>
+							<tr>
+								<td>😍</td><td>🤬</td>
+							</tr>
+							<tr>
+								<td>Toute l'application est packagée avec ses dépendances</td>
+								<td>Docker sur Mac pouvait être pénible ?</td>
+							</tr>
+						</table>
+					</section>
+				</section>
+				<section>
+					<section>
+					<h3>Devops</h3>
+					<img src="./img/devops.png">
+					<aside class="notes">
+						Docker s'intègre souvent dans une démarche "DevOps" : dès qu'on écrit du code, on pousse sur Github qui builde l'image, exécute les éventuels tests et l'envoie sur un serveur de test. Une image est transportable et peut être jouée sur un serveur ou l'autre.
+					</aside>
+				</section>
+				<section>
+					<h3>Un peu de terminologie</h3>
+					<ul>
+						<li>Image: Paquet qui contient tout ce qui est nécessaire à une application (code, dépendances...)</li>
+						<li>Container: Une image en cours d'exécution</li>
+						<li>Dockerfile: La <i>"recette de cuisine"</i> pour fabriquer une image</li>
+					</ul>
+
+					<blockquote>
+						💡 <a href="https://www.youtube.com/watch?v=3hol91BkYHU&list=PLmw3X80dPdlyRV2EUKnFOvBACs_tcArd0">La série "Understanding Docker in 2 minutes" peut vous intéresser ! (Sketchnode, article, vidéo)</a>
+					</blockquote>
+				</section>
+					<aside class="notes">
+						Docker s'intègre souvent dans une démarche "DevOps" : dès qu'on écrit du code, on pousse sur Github qui builde l'image, exécute les éventuels tests et l'envoie sur un serveur de test. Une image est transportable et peut être jouée sur un serveur ou l'autre.
+					</aside>
+				</section>
+				<section>
+					<section>
+					<h3>Cas 1: Exemple d'une application Node.js</h3>
+					</section>
+					<section>
+						<img src="img/docker-node.png" />
+						<aside class="notes">
+							J'aime bien visualiser avant de me lancer dans la dockerisation d'un projet.
+						</aside>
+					</section>
+						<section>
+							<h3>Dockerfile</h3>
+
+							🛟 <a href="https://docs.docker.com/reference/dockerfile/#cmd">Retrouver ce que chaque instruction signifie</a>
+
+
+							<pre><code data-trim data-noescape>
+							FROM node:lts-buster-slim
+
+							ADD . /workdir
+
+							WORKDIR /workdir
+
+							EXPOSE 8888
+
+							RUN yarn install
+
+
+							CMD [ "yarn", "start" ]
+						</code></pre>
+					</section>
+					<section>
+						Etapes
+
+						<ol>
+							<li>Je me mets à la racine du projet (où se trouve le dockerfile)</li>
+							<li>Je build l'image avec la commande `docker build`</li>
+							<li>Je run l'image dans un container `docker run`</li>
+						</ol>
+
+						<blockquote>🤹‍♀️ Démonstration !</blockquote>
+						<aside class="notes">
+							cd /Users/lailaatrmouh/Perso/minikube-demo/node-api-sample
+							docker build -t node-api-sample .
+							docker run -dp 127.0.0.1:8888:8888 node-api-sample
+						</aside>
+					</section>
+				</section>
+				<section>
+					<section>
+					<h3>Cas 2: Exemple d'une application PHP/MySQL</h3><br />
+
+						Application Wordpress avec PHPMyAdmin
+
+					</section>
+
+					<section>
+							<img src="img/docker-php-mysql.png" />
+					</section>
+
+					<section>
+						Docker-Compose pour synchroniser le lancement des images !
+
+						<pre><code data-trim data-noescape>
+							version: '3.1'
+
+							services:
+
+								wordpress:
+									image: wordpress
+									restart: always
+									ports:
+										- "8080:80"
+									environment:
+										WORDPRESS_DB_HOST: db
+										WORDPRESS_DB_USER: exampleuser
+										WORDPRESS_DB_PASSWORD: examplepass
+										WORDPRESS_DB_NAME: exampledb
+									volumes:
+										- ./wordpress:/var/www/html
+								db:
+									image: mysql:5.7
+									restart: always
+									environment:
+										MYSQL_DATABASE: exampledb
+										MYSQL_USER: exampleuser
+										MYSQL_PASSWORD: examplepass
+										MYSQL_RANDOM_ROOT_PASSWORD: '1'
+									volumes:
+										- ./db:/var/lib/mysql
+										- ./schema/:/docker-entrypoint-initdb.d
+
+								phpmyadmin:
+									image: phpmyadmin
+									container_name: phpmyadmin
+									restart: always
+									ports:
+										- 8081:80
+							volumes:
+								wordpress:
+								db:
+								schema:
+								</code></pre>
+
+						<blockquote>🤹‍♀️ Démonstration !</blockquote>
+
+						<aside class="notes">
+							Montrer le lien du projet: https://github.com/Kasutan/nous-toutes-wp-content
+
+							cd /Users/lailaatrmouh/Assos/nous-toutes-wp-content
+							docker-compose up
+						</aside>
+					</section>
+
+
+					</script>
+				</section>
+
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+					<script type="text/template">
+						<h3>Démarche RNCP</h3>
+						<ul>
+							<li>Faites un schéma de votre architecture</li>
+							<li>Allez y brique par brique! Familiarisez vous avec un <pre>Dockerfile</pre> simple puis jouez avec <pre>docker-compose</pre> pour apprécier sa puissance</li>
+							<li>Visualisez les liens de dépendances entre les briques (Ex: mon application node ne peut démarrer sans sa base de données mysql)</li>
+							<li>Visualisez les volumes (données, images liées à l'application, BDD ?)</li>
+					</script>
+				</section>
+
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+					<script type="text/template">
+					<h3>Ressources utiles</h3>
+
+					<blockquote>💡 Il existe un serveur Ada où vous pouvez déployer vos images ! Deuxième atelier ? ^^' </blockquote>
+
+					<ul>
+						<li><a href="https://docs.docker.com/reference/dockerfile/#cmd">Toutes les instructions utilisables dans un Dockerfile</a></li>
+						<li><a href="https://www.youtube.com/watch?v=3hol91BkYHU&list=PLmw3X80dPdlyRV2EUKnFOvBACs_tcArd0&index=1">Pour revenir sur chaque notion clé (layer, container, image), les contenus d'Aurélie Vache</a></li>
+						<li>How to dockerize ... application, c'est devenu un verbe, oui oui</li>
+						<li><a href="https://cours.brosseau.ovh/cheatsheets/docker/#linux-debian-ubuntu">Aide-mémoire Docker</a></li>
+					</script>
+				</section>
+
+				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
+					<script type="text/template">
+					<h3>Aller plus loin</h3>
+					<ul>
+						<li><a href="https://www.redhat.com/fr/topics/containers">Qu'est-ce qu'un container Linux ?</a> (la technologie sur laquelle se base Docker, qui existe depuis 2008!)</li>
+						<li><a href="https://cloudacademy.com/blog/docker-vs-virtual-machines-differences-you-should-know/">Différence entre machines virtuelles et Docker (l'exploitation de l'OS hôte)</a></li>
+					</ul>
+					</script>
+				</section>
+				<section>
+					<h3>Merci! 🙏</h3>
+					Vos feedbacks seront appréciés :)
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
