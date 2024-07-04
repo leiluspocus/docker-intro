@@ -18,29 +18,40 @@
 			<div class="slides">
 				<section>
 					<p>🐳 A la découverte de Docker !</p>
-					<p><a href="https://leiluspocus.netlify.app">Laïla Atrmouh</a> <i>(Ada Tech School Paris)</i></p>
+					<p><a href="https://leiluspocus.netlify.app">Laïla Atrmouh</a></p>
 				</section>
 				<section>
 					<i>📆 Au menu</i>
 					<ul>
 						<li>Docker: A quoi ça sert ?</li>
-						<li>Cas #1 : Une application Node.js</li>
-						<li>Cas #2 : Une application PHP avec sa petite base MySQL</li>
+						<li>REX #1 : Une application Node.js</li>
+						<li>REX #2 : Une application PHP avec sa petite base MySQL</li>
 						<li>Etapes pour dockeriser son projet RNCP</li>
 						<li>Conseils et ressources utiles</li>
 					</ul>
-					<aside class="notes">
-						Rappeler que je parle vite et qu'elles ne doivent pas hésiter à m'interrompre. On va voir des exemples de projets sur lesquels j'ai pu travailler.
-					</aside>
 				</section>
 				<section>
+					<i>📣 Disclaimer</i>
+					<ul>
+						<li>J'ai tendance à parler vite: <strong>arrêtez moi</strong> quand vous voulez</li>
+						<li>Vous pouvez utiliser le chat en cas de question ou parler directement au micro selon votre aisance.</li>
+					</ul>
+				</section>
+				<section>
+					<section>
+						❓ Petit sondage pour commencer !
+
+						<blockquote>
+							Comment démarrez-vous vos projets dans vos alternances ? <br />Utilisez-vous Docker au quotidien ?</blockquote>
+
+					</section>
 					<section>
 						🤔 Problème de dev
 
 						<blockquote>
 							J'ai un site Wordpress avec une base de données.<br />
 							J'accueille un·e camarade dessus.						<br />
-							Comment lui faire démarrer le projet ?</blockquote>
+							Comment cette personne peut récupérer le projet sur sa machine et le faire démarrer ?</blockquote>
 
 					</section>
 					<section>
@@ -74,8 +85,12 @@
 								<td>😍</td><td>🤬</td>
 							</tr>
 							<tr>
-								<td>On visualise toutes les dépendances</td>
-								<td>A répéter à chaque environnement crée, les différences Windows/Mac</td>
+								<td>Formateur dans l'apprentissage <i>(on visualise tout le nécessaire au fonctionnement du site)</i></td>
+								<td>Liste longue d'étapes à répéter à chaque nouvel environnement crée</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>Différences Mac/Windows/Linux</td>
 							</tr>
 						</table>
 					</section>
@@ -105,7 +120,22 @@
 								<td>Toute l'application est packagée avec ses dépendances</td>
 								<td>Docker sur Mac pouvait être pénible ?</td>
 							</tr>
+							<tr>
+								<td>Quelque soit l'OS hôte, on démarre le projet avec la même commande <pre>docker ...</pre> ou <pre>docker compose ...</pre> </td>
+							</tr>
 						</table>
+					</section>
+					<section>
+
+						Docker vs Machines virtuelles
+
+						<i>(Autre solution pour créer des environnements - Vagrant)</i>
+						<img src="https://cloudacademy.com/wp-content/uploads/2019/10/Docker-vs..png" />
+
+						Docker exploite le système d'exploitation de la machine hôte alors que la VM embarque son propre OS (et donc, est plus volumineuse)
+
+
+
 					</section>
 				</section>
 				<section>
@@ -163,13 +193,18 @@
 							CMD [ "yarn", "start" ]
 						</code></pre>
 					</section>
+					<section data-background-iframe="https://docs.docker.com/reference/dockerfile"
+										data-background-interactive>
+						<h3>Ressource utile</h3>
+						🛟 <a href="https://docs.docker.com/reference/dockerfile/#cmd">Retrouver ce que chaque instruction signifie</a>
+					</section>
 					<section>
 						Etapes
 
 						<ol>
 							<li>Je me mets à la racine du projet (où se trouve le dockerfile)</li>
-							<li>Je build l'image avec la commande `docker build`</li>
-							<li>Je run l'image dans un container `docker run`</li>
+							<li>Je build l'image avec la commande <pre>docker build -t node-api-sample .</pre></li>
+							<li>Je run l'image dans un container <pre>docker run -dp 127.0.0.1:8888:8888 node-api-sample</pre></li>
 						</ol>
 
 						<blockquote>🤹‍♀️ Démonstration !</blockquote>
@@ -252,10 +287,10 @@
 
 				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
 					<script type="text/template">
-						<h3>Démarche RNCP</h3>
+						<h3>Démarche pour "dockeriser" une application</h3>
 						<ul>
 							<li>Faites un schéma de votre architecture</li>
-							<li>Allez y brique par brique! Familiarisez vous avec un <pre>Dockerfile</pre> simple puis jouez avec <pre>docker-compose</pre> pour apprécier sa puissance</li>
+							<li>Allez y brique par brique! Familiarisez vous avec un <pre>Dockerfile</pre> simple puis jouez avec <pre>docker-compose</pre> quand vous avez plus d'une image</li>
 							<li>Visualisez les liens de dépendances entre les briques (Ex: mon application node ne peut démarrer sans sa base de données mysql)</li>
 							<li>Visualisez les volumes (données, images liées à l'application, BDD ?)</li>
 					</script>
