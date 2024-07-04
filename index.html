@@ -8,7 +8,7 @@
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+		<link rel="stylesheet" href="dist/theme/dracula.css">
 
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -193,18 +193,13 @@
 							CMD [ "yarn", "start" ]
 						</code></pre>
 					</section>
-					<section data-background-iframe="https://docs.docker.com/reference/dockerfile"
-										data-background-interactive>
-						<h3>Ressource utile</h3>
-						🛟 <a href="https://docs.docker.com/reference/dockerfile/#cmd">Retrouver ce que chaque instruction signifie</a>
-					</section>
 					<section>
 						Etapes
 
 						<ol>
 							<li>Je me mets à la racine du projet (où se trouve le dockerfile)</li>
 							<li>Je build l'image avec la commande <pre>docker build -t node-api-sample .</pre></li>
-							<li>Je run l'image dans un container <pre>docker run -dp 127.0.0.1:8888:8888 node-api-sample</pre></li>
+							<li>Je run l'image dans un container <pre>docker run -dp 127.0.0.1:8888:8888 node-api-sample</li>
 						</ol>
 
 						<blockquote>🤹‍♀️ Démonstration !</blockquote>
@@ -288,7 +283,7 @@
 				<section data-markdown data-separator="^\n---\n$" data-separator-vertical="^\n--\n$">
 					<script type="text/template">
 						<h3>Démarche pour "dockeriser" une application</h3>
-						<ul>
+						<ul style="font-size: 32px">
 							<li>Faites un schéma de votre architecture</li>
 							<li>Allez y brique par brique! Familiarisez vous avec un <pre>Dockerfile</pre> simple puis jouez avec <pre>docker-compose</pre> quand vous avez plus d'une image</li>
 							<li>Visualisez les liens de dépendances entre les briques (Ex: mon application node ne peut démarrer sans sa base de données mysql)</li>
@@ -300,13 +295,15 @@
 					<script type="text/template">
 					<h3>Ressources utiles</h3>
 
-					<blockquote>💡 Il existe un serveur Ada où vous pouvez déployer vos images ! Deuxième atelier ? ^^' </blockquote>
+					<blockquote>💡 Il existe un serveur Ada où vous pouvez déployer vos images !</blockquote>
 
-					<ul>
+					<ul style="font-size: 32px">
+						<li><a href="https://www.udemy.com/course/docker-mastery/">Cours Docker que j'ai suivi à l'époque</a></li>
 						<li><a href="https://docs.docker.com/reference/dockerfile/#cmd">Toutes les instructions utilisables dans un Dockerfile</a></li>
 						<li><a href="https://www.youtube.com/watch?v=3hol91BkYHU&list=PLmw3X80dPdlyRV2EUKnFOvBACs_tcArd0&index=1">Pour revenir sur chaque notion clé (layer, container, image), les contenus d'Aurélie Vache</a></li>
-						<li>How to dockerize ... application, c'est devenu un verbe, oui oui</li>
+						<li><a href="https://blog.stephane-robert.info/docs/conteneurs/introduction/">Introduction aux conteneurs de Stéphane Robert - Comparaison d'alternatives à Docker comme Podman</a>
 						<li><a href="https://cours.brosseau.ovh/cheatsheets/docker/#linux-debian-ubuntu">Aide-mémoire Docker</a></li>
+						<li>How to dockerize ... application, c'est devenu un verbe, oui oui</li>
 					</script>
 				</section>
 
