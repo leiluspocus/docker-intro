@@ -29,11 +29,9 @@
 						<li>Etapes pour dockeriser son projet RNCP</li>
 						<li>Conseils et ressources utiles</li>
 					</ul>
-
-					<section>
-						  <p class="fragment custom blur">Disclaimer: Je parle très vite. N'hésitez pas à m'interrompre en cas de point pas clair ! </p>
-						  <p class="fragment custom blur">Questions: en levant la main ou via le chat selon votre convenance</p>
-					</section>
+ 
+					<p class="fragment fade-up" style="font-size: 28px;">❓ Questions: en levant la main ou via le chat selon votre convenance</p> 
+					<p class="fragment fade-up" style="font-size: 28px;">⚡ Je parle parfois vite ... N'hésitez pas à me questionner au fur et à mesure ! </p>
 				</section>
 
 				<section>
@@ -44,12 +42,17 @@
 							A quoi ressemble votre ordinateur après 1 an de reconversion ?
 						</blockquote>
 
-												
-						<section>
-						  <p class="fragment custom blur">A plus grand chose !</p>
-						  <p class="fragment custom blur">Plein de langages testés / tools installés: ça peut être le bazar</p>
-						  <p class="fragment custom blur">Moi ça va nickel, merci</p>
-						</section>
+						<style>
+							.fragment.blur {
+							  filter: blur(5px);
+							}
+							.fragment.blur.visible {
+							  filter: none;
+							}
+						  </style>
+						<p class="fragment custom blur">A plus grand chose: j'ai dû changer mon ordinateur!</p>
+						<p class="fragment custom blur">Plein de langages testés / tools installés: c'est le bazar</p>
+						<p class="fragment custom blur">Moi ça va nickel, merci</p>
 					</section> 
 				
 					<section>
@@ -66,7 +69,7 @@
 					</section>
 					<section>
 
-					 On installe tout à la main !
+					 Option 1: On installe tout à la main !
 
 						<pre><code data-trim data-noescape>
 							# Installer un serveur de requêtes - Apache / Nginx
@@ -87,7 +90,7 @@
 					</section>
 					<section>
 
-						Docker
+						Option 2: Docker
 
 						<pre><code data-trim data-noescape>
 						# installation de docker sur Mac - https://docs.docker.com/desktop/install/mac-install/
